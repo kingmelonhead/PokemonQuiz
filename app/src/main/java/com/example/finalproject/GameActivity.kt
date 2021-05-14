@@ -5,13 +5,17 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 class GameActivity : AppCompatActivity() {
 
     private lateinit var viewModel: GameViewModel
     lateinit var mediaPlayer : MediaPlayer
+    lateinit var growAnim : Animation
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,13 +33,16 @@ class GameActivity : AppCompatActivity() {
         button3.setOnClickListener(buttonThreeListener)
         button4.setOnClickListener(buttonFourListener)
 
+        growAnim= AnimationUtils.loadAnimation(applicationContext, R.anim.grow)
+
+
         displayQuestion()
 
     }
 
     private val buttonOneListener = View.OnClickListener {
         if (viewModel.ready() && !mediaPlayer.isPlaying){
-
+            button1.startAnimation(growAnim)
             mediaPlayer.start()
             onPressOne()
         }
@@ -43,21 +50,21 @@ class GameActivity : AppCompatActivity() {
     }
     private val buttonTwoListener = View.OnClickListener {
         if (viewModel.ready() && !mediaPlayer.isPlaying) {
-
+            button2.startAnimation(growAnim)
             mediaPlayer.start()
             onPressTwo()
         }
     }
     private val buttonThreeListener = View.OnClickListener {
         if (viewModel.ready() && !mediaPlayer.isPlaying){
-
+            button3.startAnimation(growAnim)
             mediaPlayer.start()
             onPressThree()
         }
     }
     private val buttonFourListener = View.OnClickListener {
         if (viewModel.ready() && !mediaPlayer.isPlaying) {
-
+            button4.startAnimation(growAnim)
             mediaPlayer.start()
             onPressFour()
         }
