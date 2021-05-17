@@ -41,32 +41,51 @@ class GameActivity : AppCompatActivity() {
     }
 
     private val buttonOneListener = View.OnClickListener {
-        if (viewModel.ready() && !mediaPlayer.isPlaying){
-            button1.startAnimation(growAnim)
+        if (viewModel.isReady) {
+            viewModel.isReady = false
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.pause()
+                mediaPlayer.seekTo(0)
+            }
             mediaPlayer.start()
-            onPressOne()
+            button1.startAnimation(growAnim)
+            onPress(1)
         }
-
     }
     private val buttonTwoListener = View.OnClickListener {
-        if (viewModel.ready() && !mediaPlayer.isPlaying) {
-            button2.startAnimation(growAnim)
+        if (viewModel.isReady) {
+            viewModel.isReady = false
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.pause()
+                mediaPlayer.seekTo(0)
+            }
             mediaPlayer.start()
-            onPressTwo()
+            button2.startAnimation(growAnim)
+            onPress(2)
         }
     }
     private val buttonThreeListener = View.OnClickListener {
-        if (viewModel.ready() && !mediaPlayer.isPlaying){
-            button3.startAnimation(growAnim)
+        if (viewModel.isReady) {
+            viewModel.isReady = false
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.pause()
+                mediaPlayer.seekTo(0)
+            }
             mediaPlayer.start()
-            onPressThree()
+            button3.startAnimation(growAnim)
+            onPress(3)
         }
     }
     private val buttonFourListener = View.OnClickListener {
-        if (viewModel.ready() && !mediaPlayer.isPlaying) {
-            button4.startAnimation(growAnim)
+        if (viewModel.isReady) {
+            viewModel.isReady = false
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.pause()
+                mediaPlayer.seekTo(0)
+            }
             mediaPlayer.start()
-            onPressFour()
+            button4.startAnimation(growAnim)
+            onPress(4)
         }
     }
 
@@ -78,42 +97,16 @@ class GameActivity : AppCompatActivity() {
         button3.text = temp.options[2]
         button4.text = temp.options[3]
     }
-    private fun onPressOne(){
+    private fun onPress(i : Int){
         //call view model check answer function with ans 1
-        viewModel.checkAnswer(1)
-        val temp = viewModel.getQuestionNo()
-        if (temp == 10){
+        if (viewModel.checkAnswer(i) == -1){
             goToResults()
         }
-        displayQuestion() // display the next question
-    }
-    private fun onPressTwo(){
-        //call view model check answer function with ans 2
-        viewModel.checkAnswer(2)
-        val temp = viewModel.getQuestionNo()
-        if (temp == 10){
-            goToResults()
+        else {
+            displayQuestion() // display the next question
         }
-        displayQuestion()
     }
-    private fun onPressThree(){
-        //call view model check answer function with ans 3
-        viewModel.checkAnswer(3)
-        val temp = viewModel.getQuestionNo()
-        if (temp == 10){
-            goToResults()
-        }
-        displayQuestion()
-    }
-    private fun onPressFour(){
-        //call view model check answer function with ans 4
-        viewModel.checkAnswer(4)
-        val temp = viewModel.getQuestionNo()
-        if (temp == 10){
-            goToResults()
-        }
-        displayQuestion()
-    }
+
     private fun goToResults(){
         val score = viewModel.getScore()
         val temp = viewModel.getAnswers()

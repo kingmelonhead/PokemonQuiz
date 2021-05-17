@@ -11,7 +11,7 @@ class GameViewModel : ViewModel() {
     private val handler: Handler = Handler(Looper.getMainLooper())
     private var timeStamp: Long = 0
     private var totalTimeStamp: Long = 0
-    private var isReady = 1
+    var isReady = true
     private var questionNo = 0
     private var score = 0
 
@@ -48,21 +48,24 @@ class GameViewModel : ViewModel() {
     }
 
     //function called from the activity
-    fun checkAnswer(ans : Int){
-        isReady = 0
+    fun checkAnswer(ans : Int) : Int{
         var tempString = "No"
-        var time : String = " " // update this later to get the actual time
         if (ans == questions[questionNo].correctAns){
             tempString = "yes"
             score++
         }
-
         //add a result container
         answers += ResultContainer(questions[questionNo].options[ans - 1], tempString, getTime())
         //increments the question number
         questionNo++
         zeroTime()
-        isReady = 1
+        return if (questionNo == 10){
+            -1
+        }
+        else {
+            isReady = true
+            0
+        }
     }
 
     private fun tick(speed: Long = 10) {
@@ -84,12 +87,5 @@ class GameViewModel : ViewModel() {
     fun getAnswers() : Array<ResultContainer> {
         return answers
     }
-    fun getQuestionNo() : Int{
-        return questionNo
-    }
-    fun ready() : Boolean {
-        return isReady == 1
-    }
-
 
 }
